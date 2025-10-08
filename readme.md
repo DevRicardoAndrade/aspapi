@@ -284,6 +284,7 @@ Siga os passos abaixo para configurar e executar a aplicação localmente:
 5. **Acesse a aplicação pelo navegador**
    - Abra o navegador e acesse:
      ```
-     http://localhost:81/
+     http://localhost:81/ui
      ```
+
 

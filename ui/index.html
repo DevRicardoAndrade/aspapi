@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="./loader/loader.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+        }
+
+        .bg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background: #f0f0f0;
+        }
+
+        .panel {
+            display: flex;
+            width: 800px;
+            height: 500px;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .aside {
+            flex: 1;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .bside {
+            flex: 2;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bside h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .bside input, 
+        .bside button {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 1rem;
+            width: 260px;
+        }
+
+        .bside button {
+            background: #3498db;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .bside button:hover {
+            background: #2980b9;
+        }
+        .bside form{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #erro{
+            display: none;
+            border: 1px solid rgb(204, 78, 78);
+            width: 260px;
+            padding-bottom: 4px;
+            padding-top: 4px;
+            text-align: center;
+            margin-bottom: 4px;
+            background-color: rgb(248, 158, 158);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg">
+        <div class="panel">
+            <div class="aside">
+                Sistema de cadastro de produtos
+            </div>
+            <div class="bside">
+                <h2>Para continuar é preciso fazer login!</h2>
+                <form onsubmit="logar(event)" method="post">
+                    <input type="text" name="usuario" placeholder="Nome de usuário" required>
+                    <input type="password" name="senha" placeholder="Senha" required>
+                    <button type="submit">Entrar</button>
+                </form>
+                <div id="erro">
+                    
+                </div>
+                <a href="cadastro">Clique aqui para se cadastrar</a>
+            </div>
+        </div>
+    </div>  
+    <script src="./loader/loader.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script>
+        async function logar(event){
+            
+            const erro = document.getElementById('erro')
+            erro.innerHTML += ""
+            erro.style.display = "none"
+            event.preventDefault()
+            const form = event.target;
+
+            const usuario = form.elements["usuario"].value;
+            const senha = form.elements["senha"].value;
+
+            try {
+                showLoader('Tentando fazer login...')
+                const res = await fetch('http://localhost:81/entrar.asp', {
+                    method: 'POST',
+                    body: JSON.stringify({ usuario, senha })
+                    });
+
+                const data = await res.json();
+
+                if(!data.sucesso)
+                {
+                    erro.innerHTML += `<p>${data.mensagem}</p>`
+                    erro.style.display = "block"
+                    return
+                }
+                
+                localStorage.setItem('token', data.mensagem)
+
+                window.location.href = "produtos";
+
+                    
+                } catch (err) {
+                    console.log(err);
+                }
+                finally{
+                    hideLoader()
+                }
+
+
+        }
+    window.createLoader('./loader/loader.html')        
+    </script>
+</body>
+</html>

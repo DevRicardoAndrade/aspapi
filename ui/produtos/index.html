@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../loader/loader.css">
+    <title>Produtos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        caption {
+            caption-side: top;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .botao-novo {
+            width: 150px;
+            height: 25px;
+            background-color: #3498db;
+            text-align: center;
+            color: white;
+            border: none;
+            transition: all .5s;
+        }
+
+        .botao-novo:hover {
+            background-color: #0f5e97;
+            transform: scale(105%);
+            cursor: pointer;
+        }
+
+        .bg-modal {
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            left: 0;
+            top: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: all .5s;
+        }
+
+        .modal {
+            width: 540px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            border-radius: 5px;
+        }
+
+        .modal form {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            gap: 5px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal input,
+        .modal button {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 1rem;
+            width: 260px;
+        }
+
+        .modal button {
+            background: #3498db;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .modal button[type="button"] {
+            background: #65696b;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .modal button:hover {
+            background: #2980b9;
+        }
+
+        .modal button[type="button"]:hover {
+            background: #555657;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #title {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .check {
+            width: 260px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 34px;
+            transition: 0.4s;
+        }
+
+        .slider::before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+
+        .switch input:checked+.slider {
+            background-color: #3498db;
+        }
+
+        .switch input:checked+.slider::before {
+            transform: translateX(22px);
+        }
+
+        .editar {
+            transition: all .6s;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px;
+        }
+
+        .excluir {
+            transition: all .6s;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px;
+        }
+
+        .editar:hover {
+            cursor: pointer;
+            background-color: #2980b9;
+            transform: scale(101%);
+        }
+
+        .excluir:hover {
+            cursor: pointer;
+            background-color: rgb(133, 12, 12);
+            transform: scale(101%);
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .end {
+            margin-left: auto;
+
+        }
+        .line form{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;    
+            gap: 15px;       
+        }
+        .line form input{
+            height: 28px;
+        }
+        .filter{
+            border: 1px solid grey;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="line">
+            <button class="botao-novo" onclick="abrirModal()">Novo Produto</button>
+        </div>
+        <fieldset class="filter">
+            <legend>Filtros</legend>
+            <div class="line">
+                <form onsubmit="loadData(event)">
+                    <input type="text" name="nome" placeholder="Nome">
+                    <input type="text" name="slug" placeholder="Slug">
+                    <input type="number" name="preco" placeholder="Preço" step="0.01" min="0">
+                    <input type="number" name="estoque" placeholder="Estoque" step="0.01" min="0">
+                    <div class="check">
+                        <label class="switch">
+                            <input type="checkbox" name="ativo" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="label-text">Ativo</span>
+                    </div>
+                <button class="botao-novo end">Pesquisar</button>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <table>
+        <caption>Lista de Produtos</caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Slug</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ativo</th>
+                <th>Usuário Inclusão</th>
+                <th>Usuário Alteração</th>
+                <th colspan="2">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="listaProdutos">
+        </tbody>
+    </table>
+
+    <div class="bg-modal" id="modal">
+        <div class="modal">
+            <h3 id="title">Cadastrar novo Produto</h3>
+            <form id="form-modal" onsubmit="salvar(event)" method="post">
+                <input style="display: none;" type="number" name="id" placeholder="Id">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="text" name="slug" placeholder="Slug" required>
+                <input type="text" name="descricao" placeholder="Descrição">
+                <input type="number" name="preco" placeholder="Preço" required step="0.01" min="0">
+                <input type="number" name="estoque" placeholder="Estoque" required step="0.01" min="0">
+                <div class="check">
+                    <label class="switch">
+                        <input type="checkbox" name="ativo" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <span class="label-text">Ativo</span>
+                </div>
+                <div class="acoes">
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="voltar()">Voltar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <script src="../loader/loader.js"></script>
+    <script src="../scripts/auth.js"></script>
+    <script>
+        function formClear() {
+
+            const formModal = document.getElementById('form-modal')
+            const title = document.getElementById('title')
+
+            title.innerHTML = "Cadastrar novo produto"
+
+            formModal.elements["id"].value = "";
+            formModal.elements["nome"].value = "";
+            formModal.elements["slug"].value = "";
+            formModal.elements["descricao"].value = "";
+            formModal.elements["preco"].value = "";
+            formModal.elements["estoque"].value = "";
+            formModal.elements["ativo"].checked = false;
+        }
+        function voltar() {
+            fecharModal()
+        }
+        async function excluir(id) {
+
+
+            try {
+                if (!id) {
+                    alert('Obrigatório informar id!')
+                    return
+                }
+                if (!confirm("Deseja reamente deletar produto?"))
+                    return
+
+                showLoader('Deletando...')
+                const res = await fetch('http://localhost:81/produtos.asp',
+                    {
+                        body: JSON.stringify({ id }),
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': localStorage.getItem('token'),
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                )
+                const data = await res.json()
+
+                if (data.sucesso) {
+                    loadData()
+                    return
+                }
+
+                alert(data.mensagem)
+            }
+            catch {
+                alert('Ocorreu um erro ao deletar produto!')
+            }
+            finally {
+                hideLoader();
+            }
+        }
+        function fecharModal() {
+            const modal = document.getElementById('modal')
+            modal.style.display = "none"
+            formClear()
+            loadData()
+        }
+        function abrirModal() {
+            const modal = document.getElementById('modal')
+            modal.style.display = "flex"
+            formClear()
+        }
+        async function salvar(event) {
+            showLoader('Salvando...')
+            event.preventDefault()
+
+            const form = event.target
+            const id = form.elements["id"].value
+
+            const nome = form.elements["nome"].value
+            const slug = form.elements["slug"].value
+            const descricao = form.elements["descricao"].value
+            const preco = Number(form.elements["preco"].value)
+            const estoque = Number(form.elements["estoque"].value)
+            const ativo = form.elements["ativo"].checked ? 1 : 0
+
+            if (id !== "") {
+                try {
+                    const res = await fetch('http://localhost:81/produtos.asp', {
+                        method: 'PUT',
+                        body: JSON.stringify({ id: Number(id), nome, slug, descricao, preco, estoque, ativo }),
+                        headers: {
+                            'Authorization': localStorage.getItem('token'),
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    const data = await res.json()
+                    if (data.sucesso) {
+                        fecharModal()
+                        return
+                    }
+                    alert(data.mensagem)
+
+                }
+                catch {
+                    alert('Ocorreu um erro ao cadastrar novo produto!')
+                }
+                finally {
+                    hideLoader()
+                }
+            }
+
+            try {
+                const res = await fetch('http://localhost:81/produtos.asp', {
+                    method: 'POST',
+                    body: JSON.stringify({ nome, slug, descricao, preco, estoque, ativo }),
+                    headers: {
+                        'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                const data = await res.json()
+                if (data.sucesso) {
+                    fecharModal()
+                    return
+                }
+                alert(data.mensagem)
+
+            }
+            catch {
+                alert('Ocorreu um erro ao cadastrar novo produto!')
+            }
+            finally {
+                hideLoader()
+            }
+
+
+        }
+        function editar(produto) {
+
+            const formModal = document.getElementById('form-modal')
+            abrirModal()
+
+            const title = document.getElementById('title')
+            title.innerHTML = "Alterar produto"
+
+            formModal.elements["id"].value = produto.id;
+            formModal.elements["nome"].value = produto.nome;
+            formModal.elements["slug"].value = produto.slug;
+            formModal.elements["descricao"].value = produto.descricao;
+            formModal.elements["preco"].value = produto.preco;
+            formModal.elements["estoque"].value = produto.estoque;
+            formModal.elements["ativo"].checked = produto.ativo;
+        }
+        async function loadData(event) {
+            let queryParams = ''
+            if(event instanceof SubmitEvent){
+                event.preventDefault()
+
+                const form = event.target
+
+                const slug = form.elements["slug"].value
+                const nome = form.elements["nome"].value
+                const estoque = form.elements["estoque"].value
+                const preco = form.elements["preco"].value
+                const ativo = form.elements["ativo"].checked ? "1" : "0"
+                
+                const params = { slug, nome, preco, estoque, ativo }
+                const paramsLimpo = Object.fromEntries(
+
+                Object.entries(params).filter(([_, v]) => v !== "" && v != null))
+                let e = new URLSearchParams(paramsLimpo)
+
+                queryParams = "?" + e.toString()
+
+            }
+            try {
+                const tbody = document.getElementById('listaProdutos');
+                tbody.innerHTML = ""
+                showLoader('Carregando...')
+
+                const res = await fetch('http://localhost:81/produtos.asp' + queryParams, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                const { produtos } = await res.json()
+
+                if (!produtos) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = '<td colspan="11">Nenhum produdo encontrado!</td>'
+                    tbody.appendChild(tr);
+                    return
+                }
+                produtos.forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>${p.id}</td>
+                    <td>${p.nome}</td>
+                    <td>${p.slug}</td>
+                    <td>${p.descricao}</td>
+                    <td>${p.preco}</td>
+                    <td>${p.estoque}</td>
+                    <td>${p.ativo ? "Sim" : "Não"}</td>
+                    <td>${p.usuario_inclusao}</td>
+                    <td>${p.usuario_alteracao || ''}</td>
+                    <td><button class="editar">Editar</button></td>
+                    <td><button class="excluir ">Excluir</button></td>
+                `;
+
+                    tr.querySelector('.editar').addEventListener('click', () => {
+                        editar(p);
+                    });
+
+                    tr.querySelector('.excluir').addEventListener('click', () => {
+                        excluir(p.id);
+                    });
+
+                    tbody.appendChild(tr);
+                });
+            }
+            catch {
+                console.log('Ocorreu um erro ao carregar produtos!')
+            }
+            finally {
+                hideLoader()
+            }
+        }
+        window.createLoader('../loader/loader.html', loadData)
+    </script>
+
+</body>
+
+</html>

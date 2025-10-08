@@ -1,0 +1,26 @@
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.35);
+  z-index: 9999;
+}
+
+.loader-overlay.visible { display: flex; }
+
+.loader-box {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 18px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.loader-text { font-size: 14px; font-weight: 600; }
+
+.loader-box svg { width: 44px; height: 44px; }

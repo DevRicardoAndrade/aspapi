@@ -1,0 +1,313 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1758837594761
+  modified: 1758837594761
+  description: ""
+collection:
+  - url: http://localhost:81/registro.asp
+    name: Usuário - Cadastro
+    meta:
+      id: req_ec3ebafaee4f4ae4b099ea441e721172
+      created: 1759515435165
+      modified: 1759530344419
+      isPrivate: false
+      description: ""
+      sortKey: -1759515435165
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"usuario": "bia",
+        	"nome": "Bia",
+        	"email" : "bia@email.com",
+        	"senha": "12345678"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:81/entrar.asp
+    name: Usuário - Login
+    meta:
+      id: req_98d2a1c522664c06aeab44112fc79525
+      created: 1759521659767
+      modified: 1759538517599
+      isPrivate: false
+      description: ""
+      sortKey: -1759521659767
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"usuario": "admin",
+        	"senha": "12345678"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:81/produtos.asp
+    name: Produto - Inserir
+    meta:
+      id: req_fb70f0e9ad7141859b36164b1721dd97
+      created: 1759530801474
+      modified: 1759717527732
+      isPrivate: false
+      description: ""
+      sortKey: -1759530801474
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"nome": "Produto 1",
+        	"slug": "produto-1",
+        	"descricao": "teste de produto 1",
+        	"preco": 10,
+        	"estoque": 1,
+        	"ativo": 1
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    authentication:
+      type: apikey
+      disabled: false
+      key: Authorization
+      value: 5F45DD83AB7CEB6207F2AB2685EEE9BE89D8407DDC9BD3AF5A
+      addTo: header
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:81/produtos.asp
+    name: Produto - Listar
+    meta:
+      id: req_d8ac942e684849da8e230733e7c95fee
+      created: 1759718021028
+      modified: 1759887904478
+      isPrivate: false
+      description: ""
+      sortKey: -1759718021028
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.6.1
+    authentication:
+      type: apikey
+      disabled: false
+      key: Authorization
+      value: 75459F8139861696E0FC2F804024123CB81FA25A3BC68D9A7A
+      addTo: header
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:81/produtos.asp
+    name: Produto - Deletar
+    meta:
+      id: req_d98cec4518cf4f62a4e40f1222e69108
+      created: 1759756438537
+      modified: 1759757210624
+      isPrivate: false
+      description: ""
+      sortKey: -1759756438537
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"id": 1
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    authentication:
+      type: apikey
+      disabled: false
+      key: Authorization
+      value: B2D27369E6ABC0CFFA463B62E67A512E66B71989515CFD8780
+      addTo: header
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:81/produtos.asp
+    name: Produto - Atualizar
+    meta:
+      id: req_48a307de5a124f248934f8318a00de92
+      created: 1759757212706
+      modified: 1759757285143
+      isPrivate: false
+      description: ""
+      sortKey: -1759757212706
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"id": 4,
+        	"nome": "Produto 1 update",
+        	"slug": "produto-1 update",
+        	"descricao": "teste de produto 1 update",
+        	"preco": 12,
+        	"estoque": 12,
+        	"ativo": 0
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    authentication:
+      type: apikey
+      disabled: false
+      key: Authorization
+      value: B2D27369E6ABC0CFFA463B62E67A512E66B71989515CFD8780
+      addTo: header
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1758837618119
+    modified: 1759887898176
+  cookies:
+    - key: PHPSESSID
+      value: jfea71erhp3idf33a4edcj6ia8
+      maxAge: 14400
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-09-30T21:26:10.803Z
+      lastAccessed: 2025-09-30T21:26:10.803Z
+      sameSite: none
+      id: aa884e45-6e76-44b6-bc18-f562a1e4dce7
+    - key: sf_redirect
+      value: deleted
+      maxAge: 0
+      domain: localhost
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-09-30T21:26:21.519Z
+      lastAccessed: 2025-09-30T21:27:05.988Z
+      id: 36910b79-bcce-4428-85fa-e723610f238b
+    - key: ASPSESSIONIDCASTSCBD
+      value: GPBFNEAAKPEPJAKEKDCDGPKM
+      domain: localhost
+      path: /
+      hostOnly: true
+      creation: 2025-10-03T17:37:20.208Z
+      lastAccessed: 2025-10-03T17:37:20.208Z
+      id: 44fe4ce8-a00a-4c3b-8ec3-593c6d0ace82
+    - key: ASPSESSIONIDACRTTDAC
+      value: DLGHMFBABEGMKICCOLDFKAOD
+      domain: localhost
+      path: /
+      hostOnly: true
+      creation: 2025-10-03T20:01:18.042Z
+      lastAccessed: 2025-10-03T20:01:18.042Z
+      id: e22618b4-495f-45d4-8df4-ec3023817287
+    - key: ASPSESSIONIDCATTTDAD
+      value: HPPNHDCAIIIOKNFKKCJNAAKN
+      domain: localhost
+      path: /
+      hostOnly: true
+      creation: 2025-10-03T21:58:16.496Z
+      lastAccessed: 2025-10-03T21:58:16.496Z
+      id: e390ee7c-3d5e-46d3-b841-47b4f929acae
+    - key: ASPSESSIONIDAARSQCAD
+      value: KPGDMKLAOEEGDMNBNMMIHJKI
+      domain: localhost
+      path: /
+      hostOnly: true
+      creation: 2025-10-06T02:24:56.581Z
+      lastAccessed: 2025-10-06T02:24:56.581Z
+      id: c464c7bd-802b-402f-ba7c-dbc6edd930d7
+    - key: ASPSESSIONIDAARTSCDC
+      value: MPHLDKNBMKBIMDAACHOKFMJG
+      domain: localhost
+      path: /
+      hostOnly: true
+      creation: 2025-10-06T12:22:39.464Z
+      lastAccessed: 2025-10-06T12:22:39.464Z
+      id: 69438b5a-09c6-4079-a748-983552192cb9
+    - key: ASPSESSIONIDSCQQSBAA
+      value: GGHBEBOBCOACBEACELAGCMIK
+      domain: localhost
+      path: /
+      hostOnly: true
+      creation: 2025-10-06T13:22:12.403Z
+      lastAccessed: 2025-10-06T13:22:12.403Z
+      id: 58e9d82e-1e0c-4fd5-a240-89a00271f111
+    - key: ASPSESSIONIDSARSQBAB
+      value: NLMFHGOBBEEEJPGNHFMGNJKO
+      domain: localhost
+      path: /
+      hostOnly: true
+      creation: 2025-10-06T14:09:04.395Z
+      lastAccessed: 2025-10-06T14:09:04.395Z
+      id: 4190cdee-cd06-4f44-870c-bf5119c06ddd
+    - key: ASPSESSIONIDSQTADDAD
+      value: BLFHKAOCFEOILHODJJKNIHKL
+      domain: localhost
+      path: /
+      hostOnly: true
+      creation: 2025-10-08T01:44:58.176Z
+      lastAccessed: 2025-10-08T01:44:58.176Z
+      id: 6389268d-3572-48c6-9c93-ac06e0b445cd
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1758837617507
+    modified: 1759515431115
+    isPrivate: false
